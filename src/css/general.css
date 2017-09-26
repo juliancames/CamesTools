@@ -1,0 +1,66 @@
+@font-face {
+    font-family: calfont;
+    src: url('../fonts/CalibriLight.eot');
+    src: url('../fonts/CalibriLight.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/CalibriLight.ttf') format('truetype');
+  }
+  
+  html,body {
+      margin:0;
+      padding:0;
+      height:100%;    
+  }
+
+  body {
+        font-family: calfont;
+        /*for footer*/
+        padding-bottom: 15px;
+  }
+
+  header
+  {
+    height: 60px;
+    border-bottom: 1px solid #CCCCCC;
+  }
+  
+  .logo-JCP
+  {
+      width: 200px;
+      height: 60px;
+      position:absolute;
+      top:0;
+      left: 0;
+      background-image: url(../img/CamesToolsLogo.png);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      border-bottom: 1px solid #CCCCCC;
+  }
+
+  footer
+  {
+      color: gray;
+      position:fixed;
+      bottom: 0;	
+      background-color: white;
+      width: 100%;    
+      height: 15px;
+      margin: 0px;
+      padding: 0px;
+      border-top: 1px solid #CCCCCC;
+      z-index: 1001;
+  }
+
+  .footerText
+  {
+      font-size: xx-small;
+      height: 15px;
+      line-height: 15px;
+      text-align: right;
+  }
+
+  .tableHex
+  {
+      font-family: Courier New, Courier, monospace;
+      font-size: smaller;
+  }

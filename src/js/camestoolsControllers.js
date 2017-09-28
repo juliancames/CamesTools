@@ -36,4 +36,20 @@ app.controller('TabsDemoCtrl', function ($scope, $window, $document, $http, NgTa
 			$scope.uniParamBytes = response.data.bytes;
 		});
 	}
+
+	$scope.getFile = function (){
+		var data = {};
+		data.indexName = 0;
+		data.srcData = $scope.uniParamBytes;
+
+		$http.get('http://localhost:8888/getFile', data);
+		/*.
+		then(function(response) {
+			$scope.uniParamList = response.data.positions;
+			$scope.tableParams.settings({ dataset: $scope.uniParamList });
+			$scope.tableParams.reload();
+
+			$scope.uniParamBytes = response.data.bytes;
+		});*/
+	}
 })

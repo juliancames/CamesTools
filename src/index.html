@@ -28,6 +28,7 @@
                                         <input type="file" onchange="angular.element(this).scope().loadfile(this)" style="display: none;">
                                         <div class="btn btn-primary">Load UniformParameter.bin...</div>
                                     </label>
+                                    <button ng-click="getFile()">pressFile...</button>
                                     <br/><br/>                                    
                                         <table ng-table="tableParams" class="table table-condensed table-bordered table-striped tableHex" show-filter="false">
                                             <colgroup>

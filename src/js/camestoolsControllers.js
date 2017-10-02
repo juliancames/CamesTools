@@ -38,18 +38,23 @@ app.controller('TabsDemoCtrl', function ($scope, $window, $document, $http, NgTa
 	}
 
 	$scope.getFile = function (){
-		var data = {};
-		data.indexName = 0;
-		data.srcData = $scope.uniParamBytes;
-
-		$http.get('http://localhost:8888/getFile', data);
-		/*.
-		then(function(response) {
-			$scope.uniParamList = response.data.positions;
-			$scope.tableParams.settings({ dataset: $scope.uniParamList });
-			$scope.tableParams.reload();
-
-			$scope.uniParamBytes = response.data.bytes;
-		});*/
+		var obj = JSON.parse($scope.uniParamBytes);
+		var arr = Object.keys(obj).map(function(k) { return obj[k] });
+		var sampleBytes = new Int8Array(arr);
+		saveByteArray([sampleBytes], 'example.bin.unzlib');
 	}
+
+	var saveByteArray = (function () {
+		var a = document.createElement("a");
+		document.body.appendChild(a);
+		a.style = "display: none";
+		return function (data, name) {
+			var blob = new Blob(data, {type: "octet/stream"}),
+				url = window.URL.createObjectURL(blob);
+			a.href = url;
+			a.download = name;
+			a.click();
+			window.URL.revokeObjectURL(url);
+		};
+	}());
 })

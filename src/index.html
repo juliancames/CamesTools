@@ -26,28 +26,34 @@
                             <uib-tab index="0" heading="UniParam - 18">
                                     <label class="import-file">
                                         <input type="file" onchange="angular.element(this).scope().loadfile(this)" style="display: none;">
-                                        <div class="btn btn-primary">Load UniformParameter.bin...</div>
+                                        <div class="btn btn-primary"><span class="glyphicon glyphicon-open"></span>    Load UniformParameter.bin...</div>
                                     </label>
-                                    <button ng-click="getFile()">pressFile...</button>
+                                    <button class="btn btn-success" ng-click="getFile()"><span class="glyphicon glyphicon-save"></span>  Generate and download new File</button>
                                     <br/><br/>                                    
                                         <table ng-table="tableParams" class="table table-condensed table-bordered table-striped tableHex" show-filter="false">
                                             <colgroup>
+                                                <col width="10%" />
+                                                <col width="10%" /> 
                                                 <col width="30%" />
                                                 <col width="10%" />
                                                 <col width="10%" />
-                                                <col width="40%" />
-                                                <col width="10%" />				          
+                                                <col width="30%" />                                                			          
                                             </colgroup>
-                                            <tr ng-repeat='uni in $data'>
+                                            <tr ng-repeat='uni in $data'>                                                
+                                                <td>
+                                                    <button class="btn btn-success btn-sm" ng-click="toReal(uni)" ng-if="uni.isEditing"><span class="glyphicon glyphicon-share-alt"></span>  confirm</button>
+                                                    <button class="btn btn-danger btn-sm" ng-click="uni.isEditing = false" ng-if="uni.isEditing"><span class="glyphicon glyphicon-remove"></span>  Cancel</button>
+                                                    <button class="btn btn-info btn-sm" ng-click="uni.isEditing = true" ng-if="!uni.isEditing" ng-disabled="uni.filename.indexOf('realUni') != -1"><span class="glyphicon glyphicon-share-alt"></span>  to Real</button>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-success btn-sm" ng-click="editKitConfig(uni)" ng-if="uni.isEditKit"><span class="glyphicon glyphicon-share-alt"></span>  edit...</button>
+                                                    <button class="btn btn-danger btn-sm" ng-click="uni.isEditKit = false" ng-if="uni.isEditKit"><span class="glyphicon glyphicon-remove"></span>  Cancel</button>
+                                                    <button class="btn btn-primary btn-sm" ng-click="uni.isEditKit = true" ng-if="!uni.isEditKit" ng-disabled="true"><span class="glyphicon glyphicon-pencil"></span>  edit</button>
+                                                </td>
                                                 <td title="'filename'">{{uni.filename}}</td>
                                                 <td title="'posConfig'">{{uni.positionConfig}}</td>
                                                 <td title="'posName'">{{uni.positionName}}</td>                                                
                                                 <td title="'Config'">{{uni.configuration}}</td>
-                                                <td>
-                                                    <button class="btn btn-primary btn-sm" ng-click="toReal(uni)" ng-if="uni.isEditing"><span class="glyphicon glyphicon-ok"></span></button>
-                                                    <button class="btn btn-default btn-sm" ng-click="uni.isEditing = false" ng-if="uni.isEditing"><span class="glyphicon glyphicon-remove"></span></button>
-                                                    <button class="btn btn-default btn-sm" ng-click="uni.isEditing = true" ng-if="!uni.isEditing"><span class="glyphicon glyphicon-pencil"></span></button>
-                                                </td>
                                             </tr>
                                         </table>
                             </uib-tab>                                                        

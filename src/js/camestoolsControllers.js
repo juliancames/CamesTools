@@ -41,7 +41,7 @@ app.controller('TabsDemoCtrl', function ($scope, $window, $document, $http, NgTa
 		var obj = JSON.parse($scope.uniParamBytes);
 		var arr = Object.keys(obj).map(function(k) { return obj[k] });
 		var sampleBytes = new Int8Array(arr);
-		saveByteArray([sampleBytes], 'example.bin.unzlib');
+		saveByteArray([sampleBytes], 'UniformParameter.bin.unzlib');
 	}
 
 	var saveByteArray = (function () {
@@ -57,4 +57,8 @@ app.controller('TabsDemoCtrl', function ($scope, $window, $document, $http, NgTa
 			window.URL.revokeObjectURL(url);
 		};
 	}());
+
+	$scope.editKitConfig = function (uni){
+		
+	}
 })

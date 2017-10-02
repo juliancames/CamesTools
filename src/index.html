@@ -24,12 +24,16 @@
                     <div ng-controller="TabsDemoCtrl">                                                
                         <uib-tabset active="active">
                             <uib-tab index="0" heading="UniParam - 18">
-                                    <label class="import-file">
-                                        <input type="file" onchange="angular.element(this).scope().loadfile(this)" style="display: none;">
-                                        <div class="btn btn-primary"><span class="glyphicon glyphicon-open"></span>    Load UniformParameter.bin...</div>
-                                    </label>
-                                    <button class="btn btn-success" ng-click="getFile()"><span class="glyphicon glyphicon-save"></span>  Generate and download new File</button>
-                                    <br/><br/>                                    
+                                <div class="container">
+                                    <div class="row">
+                                        <label class="import-file">
+                                            <input type="file" onchange="angular.element(this).scope().loadfile(this)" style="display: none;">
+                                            <div class="btn btn-primary"><span class="glyphicon glyphicon-open"></span>    Load UniformParameter.bin...</div>
+                                        </label>
+                                        <button class="btn btn-success" ng-click="getFile()"><span class="glyphicon glyphicon-save"></span>  Generate and download new File</button>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
                                         <table ng-table="tableParams" class="table table-condensed table-bordered table-striped tableHex" show-filter="false">
                                             <colgroup>
                                                 <col width="10%" />
@@ -45,10 +49,8 @@
                                                     <button class="btn btn-danger btn-sm" ng-click="uni.isEditing = false" ng-if="uni.isEditing"><span class="glyphicon glyphicon-remove"></span>  Cancel</button>
                                                     <button class="btn btn-info btn-sm" ng-click="uni.isEditing = true" ng-if="!uni.isEditing" ng-disabled="uni.filename.indexOf('realUni') != -1"><span class="glyphicon glyphicon-share-alt"></span>  to Real</button>
                                                 </td>
-                                                <td>
-                                                    <button class="btn btn-success btn-sm" ng-click="editKitConfig(uni)" ng-if="uni.isEditKit"><span class="glyphicon glyphicon-share-alt"></span>  edit...</button>
-                                                    <button class="btn btn-danger btn-sm" ng-click="uni.isEditKit = false" ng-if="uni.isEditKit"><span class="glyphicon glyphicon-remove"></span>  Cancel</button>
-                                                    <button class="btn btn-primary btn-sm" ng-click="uni.isEditKit = true" ng-if="!uni.isEditKit" ng-disabled="true"><span class="glyphicon glyphicon-pencil"></span>  edit</button>
+                                                <td>                                                    
+                                                    <button class="btn btn-primary btn-sm" ng-click="editKitConfig(uni)" ng-if="!uni.isEditKit" ng-disabled="uni.filename.indexOf('realUni') == -1"><span class="glyphicon glyphicon-pencil"></span>  edit</button>
                                                 </td>
                                                 <td title="'filename'">{{uni.filename}}</td>
                                                 <td title="'posConfig'">{{uni.positionConfig}}</td>
@@ -56,17 +58,46 @@
                                                 <td title="'Config'">{{uni.configuration}}</td>
                                             </tr>
                                         </table>
+                                        </div>
+                                    </div>
+                                    </div>
                             </uib-tab>                                                        
-                            <uib-tab index="3" heading="Other">                                    
-                                <form ng-submit="tabsSubmit()" id="modulesForm" name="modulesForm">						
-                                    Input:
-                                    <input class="form-control" type="text" ng-model="globaldata.myinputId" name="myinputId"/>
-                                    <br/>
-                                    <input class="btn btn-primary" type="submit" id="tabsubmit" value="Send...." /><br/>						  
-                                </form>
+                            <uib-tab index="3" heading="Other">
                                 
                             </uib-tab>
                         </uib-tabset>
+
+                        <!--Modal-->
+                        <script type="text/ng-template" id="kitConfig.html">
+                            <div class="modal-header">
+                                <h3 class="modal-title">{{title}}</h3>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <table ng-table="tableFileNamesKit" class="table table-condensed table-bordered table-striped tableHex" show-filter="false">
+                                                <tr ng-repeat='kit in $data'>
+                                                   <td title="'filename'">{{kit}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="col-2">
+                                          2 of 3
+                                        </div>
+                                        <div class="col-2">
+                                          3 of 3
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+                                <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+                            </div>
+                        </script>
                     </div>
                 </div>
             </section>

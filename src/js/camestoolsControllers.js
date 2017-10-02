@@ -1,5 +1,5 @@
 //Tabs Controller
-app.controller('TabsDemoCtrl', function ($scope, $window, $document, $http, NgTableParams) {
+app.controller('TabsDemoCtrl', function ($scope, $window, $document, $http, $uibModal, NgTableParams) {
 
 	$scope.uniParamList = [];
 	$scope.tableParams = new NgTableParams({ count: 10});
@@ -59,6 +59,35 @@ app.controller('TabsDemoCtrl', function ($scope, $window, $document, $http, NgTa
 	}());
 
 	$scope.editKitConfig = function (uni){
-		
+		var bytesData = $scope.uniParamBytes;
+		$uibModal.open({
+	      templateUrl: 'kitConfig.html',
+	      size: 'lg',
+	      controller: function ($scope, $uibModalInstance) {
+
+	      	$scope.title = uni.filename;
+			$scope.filenames = [];
+	      	$scope.tableFileNamesKit = new NgTableParams({ count: 5 },{ counts: [] });
+
+			var data = {};
+			data.indexName = uni.index;
+			data.srcData = bytesData;
+
+			$http.post('http://localhost:8888/getConfigData', data).
+			then(function(response) {
+				$scope.filenames = [response.data.filenameKit, response.data.filenameBack, response.data.filenameChest, response.data.filenameLeg, response.data.filenameName];
+				$scope.tableFileNamesKit.settings({ dataset: $scope.filenames });
+				$scope.tableFileNamesKit.reload();
+			});	      	
+
+	        $scope.ok = function () {
+	          $uibModalInstance.close();
+	        };
+	      
+	        $scope.cancel = function () {
+	          $uibModalInstance.dismiss('cancel');
+	        };
+	      }
+    })
 	}
 })

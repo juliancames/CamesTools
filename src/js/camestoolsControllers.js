@@ -37,6 +37,21 @@ app.controller('TabsDemoCtrl', function ($scope, $window, $document, $http, $uib
 		});
 	}
 
+	$scope.addReal = function (uni){
+		var data = {};
+		data.indexName = uni.index;
+		data.srcData = $scope.uniParamBytes;
+
+		$http.post('http://localhost:8888/addRegUniParam', data).
+		then(function(response) {
+			$scope.uniParamList = response.data.positions;
+			$scope.tableParams.settings({ dataset: $scope.uniParamList });
+			$scope.tableParams.reload();
+
+			$scope.uniParamBytes = response.data.bytes;
+		});
+	}
+
 	$scope.getFile = function (){
 		var obj = JSON.parse($scope.uniParamBytes);
 		var arr = Object.keys(obj).map(function(k) { return obj[k] });

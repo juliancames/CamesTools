@@ -37,10 +37,11 @@ app.controller('TabsDemoCtrl', function ($scope, $window, $document, $http, $uib
 		});
 	}
 
-	$scope.addReal = function (uni){
+	$scope.addReal = function (uni, addNumKit){
 		var data = {};
 		data.indexName = uni.index;
 		data.srcData = $scope.uniParamBytes;
+		data.numKit = addNumKit;
 
 		$http.post('http://localhost:8888/addRegUniParam', data).
 		then(function(response) {

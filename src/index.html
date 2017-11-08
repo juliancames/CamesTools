@@ -38,7 +38,8 @@
                                         <div class="col-md-12">
                                         <table ng-table="tableParams" class="table table-condensed table-bordered table-striped tableHex" show-filter="false">
                                             <colgroup>
-                                                <col width="10%" />
+                                                <col width="5%" />
+                                                <col width="5%" />
                                                 <col width="10%" /> 
                                                 <col width="10%" /> 
                                                 <col width="10%" />
@@ -49,9 +50,14 @@
                                             </colgroup>
                                             <tr ng-repeat='uni in $data'>                                                
                                                 <td>
-                                                    <button class="btn btn-success btn-sm" ng-click="addReal(uni)" ng-if="uni.isAdding"><span class="glyphicon glyphicon-share-alt"></span>  confirm</button>
-                                                    <button class="btn btn-danger btn-sm" ng-click="uni.isAdding = false" ng-if="uni.isAdding"><span class="glyphicon glyphicon-remove"></span>  Cancel</button>
-                                                    <button class="btn btn-info btn-sm" ng-click="uni.isAdding = true" ng-if="!uni.isAdding"><span class="glyphicon glyphicon-share-alt"></span>  add 3rd kit</button>
+                                                    <button class="btn btn-success btn-sm" ng-click="addReal(uni, '3rd')" ng-if="uni.isAdding3"><span class="glyphicon glyphicon-share-alt"></span>  confirm</button>
+                                                    <button class="btn btn-danger btn-sm" ng-click="uni.isAdding3 = false" ng-if="uni.isAdding3"><span class="glyphicon glyphicon-remove"></span>  Cancel</button>
+                                                    <button class="btn btn-warning btn-sm" ng-click="uni.isAdding3 = true" ng-if="!uni.isAdding3"><span class="glyphicon glyphicon-plus"></span> 3rd</button>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-success btn-sm" ng-click="addReal(uni, '4th')" ng-if="uni.isAdding4"><span class="glyphicon glyphicon-share-alt"></span>  confirm</button>
+                                                    <button class="btn btn-danger btn-sm" ng-click="uni.isAdding4 = false" ng-if="uni.isAdding4"><span class="glyphicon glyphicon-remove"></span>  Cancel</button>
+                                                    <button class="btn btn-warning btn-sm" ng-click="uni.isAdding4 = true" ng-if="!uni.isAdding4"><span class="glyphicon glyphicon-plus"></span> 4th</button>
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-success btn-sm" ng-click="toReal(uni)" ng-if="uni.isEditing"><span class="glyphicon glyphicon-share-alt"></span>  confirm</button>

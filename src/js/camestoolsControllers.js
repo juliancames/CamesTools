@@ -2,9 +2,8 @@
 app.controller('TabsDemoCtrl', function ($scope, $window, $document, $http, $uibModal, NgTableParams) {
 
 	$scope.uniParamList = [];
-	$scope.tableParams = new NgTableParams({ count: 10});
-
 	$scope.uniParamBytes = '';
+	$scope.tableParams = new NgTableParams({ count: 10});
 
 	$scope.loadfile = function (ele) {
 		var files = ele.files;
@@ -14,13 +13,12 @@ app.controller('TabsDemoCtrl', function ($scope, $window, $document, $http, $uib
 		  then(function(response) {  
 				$scope.uniParamList = response.data.positions;
 				$scope.tableParams.settings({ dataset: $scope.uniParamList });
-
 				$scope.uniParamBytes = response.data.bytes;
 		  });
 
 		}
 		reader.readAsArrayBuffer(files[0]);
-	}
+	}	
 
 	$scope.toReal = function (uni){
 		var data = {};
@@ -76,34 +74,72 @@ app.controller('TabsDemoCtrl', function ($scope, $window, $document, $http, $uib
 
 	$scope.editKitConfig = function (uni){
 		var bytesData = $scope.uniParamBytes;
-		$uibModal.open({
+
+		var modalInstance = $uibModal.open({
 	      templateUrl: 'kitConfig.html',
 	      size: 'lg',
-	      controller: function ($scope, $uibModalInstance) {
+		  controller: function ($scope, $uibModalInstance) 
+		  {
+			  	$scope.title = uni.filename;			  
+			  	//
+				$scope.filenames = [];
+				$scope.tableFileNamesKit = new NgTableParams({ count: 5 },{ counts: [] });
+				$scope.colors = [];
+				$scope.tableColorKit = new NgTableParams({ count: 5 },{ counts: [] });
+				
+				var data = {};
+				data.indexName = uni.index;
+				data.srcData = bytesData;
+				$http.post('http://localhost:8888/getConfigData', data).
+				then(function(response) {
+					$scope.filenames = response.data.filenames;
+					$scope.tableFileNamesKit.settings({ dataset: $scope.filenames });
+					$scope.tableFileNamesKit.reload();
 
-	      	$scope.title = uni.filename;
-			$scope.filenames = [];
-	      	$scope.tableFileNamesKit = new NgTableParams({ count: 5 },{ counts: [] });
+					$scope.colors = response.data.colors;
+					$scope.tableColorKit.settings({ dataset: $scope.colors });
+					$scope.tableColorKit.reload();
+				});
 
-			var data = {};
-			data.indexName = uni.index;
-			data.srcData = bytesData;
+				//
+				$scope.importParamBytes = '';
+				$scope.importCfg = function (ele) {
+					var files = ele.files;
+					var reader = new FileReader();
+					reader.onload = function () {		 
+					  $http.post('http://localhost:8888/loadConfigImport', new Uint8Array(reader.result)).
+					  then(function(response) {				
+						$scope.importParamBytes = response.data; 
+						$uibModalInstance.close($scope.importParamBytes);
+					  });
+			
+					}
+					reader.readAsArrayBuffer(files[0]);
+				}
 
-			$http.post('http://localhost:8888/getConfigData', data).
-			then(function(response) {
-				$scope.filenames = [response.data.filenameKit, response.data.filenameBack, response.data.filenameChest, response.data.filenameLeg, response.data.filenameName];
-				$scope.tableFileNamesKit.settings({ dataset: $scope.filenames });
-				$scope.tableFileNamesKit.reload();
-			});	      	
-
-	        $scope.ok = function () {
-	          $uibModalInstance.close();
-	        };
-	      
-	        $scope.cancel = function () {
-	          $uibModalInstance.dismiss('cancel');
-	        };
+				//
+				$scope.ok = function () {
+					$uibModalInstance.close();
+				};			
+				$scope.cancel = function () {
+					$uibModalInstance.dismiss('cancel');
+				};
 	      }
-    })
+		});
+		modalInstance.result.then(function(importData) {
+            var data = {};
+			data.indexName = uni.index;
+			data.srcData = $scope.uniParamBytes;
+			data.newData = importData;
+	
+			$http.post('http://localhost:8888/importCfgUniParam', data).
+			then(function(response) {
+				$scope.uniParamList = response.data.positions;
+				$scope.tableParams.settings({ dataset: $scope.uniParamList });
+				$scope.tableParams.reload();
+	
+				$scope.uniParamBytes = response.data.bytes;
+			});
+        })
 	}
 })

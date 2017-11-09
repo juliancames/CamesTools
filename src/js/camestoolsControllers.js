@@ -28,8 +28,11 @@ app.controller('TabsDemoCtrl', function ($scope, $window, $document, $http, $uib
 		$http.post('http://localhost:8888/modifyRegUniParam', data).
 		then(function(response) {
 			$scope.uniParamList = response.data.positions;
+
+			var current = $scope.tableParams.page();
 			$scope.tableParams.settings({ dataset: $scope.uniParamList });
 			$scope.tableParams.reload();
+			$scope.tableParams.page(current);
 
 			$scope.uniParamBytes = response.data.bytes;
 		});
@@ -44,8 +47,11 @@ app.controller('TabsDemoCtrl', function ($scope, $window, $document, $http, $uib
 		$http.post('http://localhost:8888/addRegUniParam', data).
 		then(function(response) {
 			$scope.uniParamList = response.data.positions;
+			
+			var current = $scope.tableParams.page();
 			$scope.tableParams.settings({ dataset: $scope.uniParamList });
 			$scope.tableParams.reload();
+			$scope.tableParams.page(current);
 
 			$scope.uniParamBytes = response.data.bytes;
 		});
@@ -135,8 +141,11 @@ app.controller('TabsDemoCtrl', function ($scope, $window, $document, $http, $uib
 			$http.post('http://localhost:8888/importCfgUniParam', data).
 			then(function(response) {
 				$scope.uniParamList = response.data.positions;
+				
+				var current = $scope.tableParams.page();
 				$scope.tableParams.settings({ dataset: $scope.uniParamList });
 				$scope.tableParams.reload();
+				$scope.tableParams.page(current);
 	
 				$scope.uniParamBytes = response.data.bytes;
 			});

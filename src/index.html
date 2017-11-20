@@ -31,6 +31,10 @@
                                             <input type="file" onchange="angular.element(this).scope().loadfile(this)" style="display: none;">
                                             <div class="btn btn-primary"><span class="glyphicon glyphicon-open"></span>    Load UniformParameter.bin...</div>
                                         </label>
+                                        <label>
+                                            <input type="file" onchange="angular.element(this).scope().merge(this)" style="display: none;">
+                                            <div class="btn btn-warning"><span class="glyphicon glyphicon-refresh"></span>   Merge...</div>
+                                        </label>
                                         <button class="btn btn-success" ng-click="getFile()"><span class="glyphicon glyphicon-save"></span>  Generate and download new File</button>
                                     </div>
                                     </div>

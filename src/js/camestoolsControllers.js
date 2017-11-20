@@ -1,8 +1,9 @@
-//Tabs Controller
+//Controller
 app.controller('TabsDemoCtrl', function ($scope, $window, $document, $http, $uibModal, NgTableParams) {
 
 	$scope.uniParamList = [];
 	$scope.uniParamBytes = '';
+	$scope.mergeBytes = '';
 	$scope.tableParams = new NgTableParams({ count: 10});
 
 	$scope.loadfile = function (ele) {
@@ -18,7 +19,37 @@ app.controller('TabsDemoCtrl', function ($scope, $window, $document, $http, $uib
 
 		}
 		reader.readAsArrayBuffer(files[0]);
-	}	
+	}
+	
+	$scope.merge = function (ele) {
+		var files = ele.files;
+		var reader = new FileReader();
+		reader.onload = function () {		 
+		  $http.post('http://localhost:8888/getUniParamForMerge', new Uint8Array(reader.result)).
+		  then(function(response) {
+				//To merge data
+				$scope.mergeBytes = response.data.bytes;
+				
+				var data = {};				
+				data.srcData = $scope.uniParamBytes;
+				data.toMergeData = $scope.mergeBytes;
+		
+				$http.post('http://localhost:8888/mergeUniParam', data).
+				then(function(response) {
+					$scope.uniParamList = response.data.positions;
+					
+					var current = $scope.tableParams.page();
+					$scope.tableParams.settings({ dataset: $scope.uniParamList });
+					$scope.tableParams.reload();
+					$scope.tableParams.page(current);
+		
+					$scope.uniParamBytes = response.data.bytes;
+				});
+		  });
+
+		}
+		reader.readAsArrayBuffer(files[0]);
+	}
 
 	$scope.toReal = function (uni){
 		var data = {};
